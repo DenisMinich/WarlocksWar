@@ -1,0 +1,2 @@
+from warlocks_war.phisics.model_types.plain_phisics import PlainPhisics
+from warlocks_war.phisics.model_types.point_phisics import PointPhisics

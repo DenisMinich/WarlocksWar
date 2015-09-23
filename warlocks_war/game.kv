@@ -1,15 +1,4 @@
-<Actor>:
-    size: 10, 20
-    pos: 300, 100
-    canvas:
-        Color:
-            rgba: 0, .5, 0, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
 <Battlefield>:
-    actor: my_actor
 
     canvas.before:
         Color:
@@ -25,6 +14,3 @@
         Ellipse:
             size: 10, 10
             pos: 400, 300
-
-    Actor:
-        id: my_actor
