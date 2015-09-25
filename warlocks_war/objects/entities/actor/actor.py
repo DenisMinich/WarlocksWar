@@ -1,7 +1,6 @@
-from kivy.uix.widget import Widget
-
 from warlocks_war.objects.behaviour_mixins import Movable
+from warlocks_war.objects.world_object import WorldObject
 
 
-class Actor(Movable, Widget):
+class Actor(Movable, WorldObject):
     pass

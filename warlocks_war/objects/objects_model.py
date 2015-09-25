@@ -30,3 +30,7 @@ class ObjectsModel(list):
         super(ObjectsModel, self).extend(iterable)
         for new_object in iterable:
             self.parent_widget.add_widget(new_object)
+
+    def update(self):
+        for world_object in self:
+            world_object.update()

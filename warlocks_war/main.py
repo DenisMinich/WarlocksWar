@@ -26,6 +26,7 @@ class Battlefield(Widget):
 
     def update(self, x):
         self.phisics_model.process(self.world_objects)
+        self.world_objects.update()
 
 
 class GameApp(App):
