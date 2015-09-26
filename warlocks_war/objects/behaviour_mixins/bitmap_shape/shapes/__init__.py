@@ -1,0 +1,2 @@
+from warlocks_war.objects.behaviour_mixins.bitmap_shape.shapes.ellipse_shape import EllipseShape
+from warlocks_war.objects.behaviour_mixins.bitmap_shape.shapes.rectangle_shape import RectangleShape
