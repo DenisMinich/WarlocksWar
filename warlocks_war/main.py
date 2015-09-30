@@ -10,13 +10,6 @@ from warlocks_war.phisics import PhisicsModel, PlainPhisics, PointPhisics
 Builder.load_file('game.kv')
 
 
-from warlocks_war.objects import BitmapShape, EllipseShape
-
-
-class TestBitmap(Actor, BitmapShape):
-    pass
-
-
 class Battlefield(Widget):
 
     def __init__(self, *args, **kwargs):
@@ -28,11 +21,10 @@ class Battlefield(Widget):
         self.world_objects = ObjectsModel(
             Actor(size=(10, 20), pos=(150, 200), id="main_actor"),
             parent_widget=self)
-        self.bitmap = TestBitmap(size=(200, 200), pos=(300, 100), bitmap=EllipseShape.get_matrix(200, 200))
-        self.add_widget(self.bitmap)
 
     def on_touch_down(self, touch):
-        Logger.info("Collide bitmap - %s" % self.bitmap.collide_point(touch.x, touch.y))
+        Logger.info("On touch down")
+        self.world_objects.append(Actor(size=(10, 20), pos=(touch.x, touch.y)))
 
     def update(self, x):
         self.phisics_model.process(self.world_objects)
