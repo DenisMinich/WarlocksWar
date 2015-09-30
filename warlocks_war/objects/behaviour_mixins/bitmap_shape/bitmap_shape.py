@@ -7,7 +7,6 @@ COLLIDE_MATRIX_SIZE = 5
 
 
 class BitmapShape(WorldObject):
-
     def __init__(self, *args, bitmap=None, **kwargs):
         super(BitmapShape, self).__init__(*args, **kwargs)
         self.bitmap = ones(self.size, dtype=bool) if bitmap is None else bitmap

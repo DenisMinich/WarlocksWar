@@ -1,5 +1,6 @@
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.resources import resource_add_path
 from kivy.lang import Builder
 from kivy.logger import Logger
 from kivy.uix.widget import Widget
@@ -7,6 +8,7 @@ from kivy.uix.widget import Widget
 from warlocks_war.objects import Actor, ObjectsModel
 from warlocks_war.phisics import PhisicsModel, PlainPhisics, PointPhisics
 
+resource_add_path("../static/")
 Builder.load_file('game.kv')
 
 
