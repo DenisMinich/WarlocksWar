@@ -5,10 +5,11 @@ from kivy.lang import Builder
 from kivy.logger import Logger
 from kivy.uix.widget import Widget
 
-from warlocks_war.objects import Actor, ObjectsModel
+from warlocks_war.objects import Actor, ObjectsModel, Terra
 from warlocks_war.phisics import PhisicsModel, PlainPhisics, PointPhisics
+from warlocks_war.settings import STATIC_PATH
 
-resource_add_path("../static/")
+resource_add_path(STATIC_PATH)
 Builder.load_file('game.kv')
 
 
@@ -19,14 +20,16 @@ class Battlefield(Widget):
         self.phisics_model = PhisicsModel(
             PlainPhisics(gravity=(0, -.1)),
             PointPhisics(gravity=.001, coords=(400, 300), affection_radius=200),
-            PointPhisics(gravity=.01, coords=(200, 200), affection_radius=100))
+                PointPhisics(gravity=.01, coords=(200, 200), affection_radius=100))
         self.world_objects = ObjectsModel(
-            Actor(size=(10, 20), pos=(150, 200), id="main_actor"),
+            Actor(size=(40, 50), pos=(150, 200), id="main_actor", foreground="mage.png"),
             parent_widget=self)
+        self.terra = Terra(size=(220, 300), pos=(305, 135), foreground="bitmap_test.png")
+        self.add_widget(self.terra)
 
     def on_touch_down(self, touch):
         Logger.info("On touch down")
-        self.world_objects.append(Actor(size=(10, 20), pos=(touch.x, touch.y)))
+        Logger.info("Terra collide: %s" % self.terra.collide_point(touch.x, touch.y))
 
     def update(self, x):
         self.phisics_model.process(self.world_objects)

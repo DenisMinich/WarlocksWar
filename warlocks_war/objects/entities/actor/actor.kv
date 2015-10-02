@@ -1,10 +1,8 @@
-<Actor@Movable>:
+<Actor>:
     size: self.size
     pos: self.pos
     canvas:
         Color:
             rgba: 1, 1, 1, 1
-        BorderImage:
-            source: 'mage.png'
-            pos: self.pos[0] - 20, self.pos[1] - 20
-            size: 40, 50
+            Line:
+                points: 0, 0, self.center_x, self.center_y

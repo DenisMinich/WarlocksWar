@@ -3,8 +3,9 @@ from kivy.vector import Vector
 
 
 class WorldObject(Widget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, foreground_image=None, **kwargs):
         super(WorldObject, self).__init__(*args, **kwargs)
+        self.foreground_image = foreground_image
         self.register_event_type("on_update")
 
     def update(self):

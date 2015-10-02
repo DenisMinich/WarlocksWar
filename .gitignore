@@ -58,3 +58,6 @@ target/
 
 # SublimeText3
 .project
+
+# Image bitmaps
+*.csv

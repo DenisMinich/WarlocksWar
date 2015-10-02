@@ -1,0 +1,11 @@
+<ImageView>:
+    size: self.size
+    pos: self.pos
+    canvas.after:
+        Color:
+            rgba: 1, 1, 1, 1
+        BorderImage:
+            source: self.foreground
+            pos: self.pos
+            size: self.size
+
