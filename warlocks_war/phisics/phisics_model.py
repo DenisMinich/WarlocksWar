@@ -15,4 +15,4 @@ class PhisicsModel(list):
     def process(self, world_objects):
         for world_object in world_objects:
             acceleration = self._get_acceleration(world_object)
-            world_object.acceleration = Vector(*world_object.acceleration) + Vector(acceleration)
+            world_object.acceleration = Vector(acceleration)

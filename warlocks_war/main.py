@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivy.logger import Logger
 from kivy.uix.widget import Widget
 
-from warlocks_war.objects import Actor, ObjectsModel, Terra
+from warlocks_war.objects import Collector, Actor, ObjectsModel, Terra
 from warlocks_war.phisics import PhisicsModel, PlainPhisics, PointPhisics
 from warlocks_war.settings import STATIC_PATH
 
@@ -17,23 +17,26 @@ class Battlefield(Widget):
 
     def __init__(self, *args, **kwargs):
         super(Battlefield, self).__init__(*args, **kwargs)
-        self.phisics_model = PhisicsModel(
-            PlainPhisics(gravity=(0, -.1)),
-            PointPhisics(gravity=.001, coords=(400, 300), affection_radius=200),
-                PointPhisics(gravity=.01, coords=(200, 200), affection_radius=100))
-        self.world_objects = ObjectsModel(
-            Actor(size=(40, 50), pos=(150, 200), id="main_actor", foreground="mage.png"),
-            parent_widget=self)
-        self.terra = Terra(size=(220, 300), pos=(305, 135), foreground="bitmap_test.png")
-        self.add_widget(self.terra)
+
+        Collector.assign_collection("world_objects", ObjectsModel(parent_widget=self))
+        Collector.assign_collection("world_phisics", PhisicsModel(parent_widget=self))
+
+        PointPhisics(gravity=.001, coords=(400, 300), affection_radius=200)
+        PointPhisics(gravity=.01, coords=(200, 200), affection_radius=100)
+        PlainPhisics(gravity=(0, -.1))
+
+        Actor(size=(40, 50), pos=(150, 200), id="main_actor", foreground="mage.png")
+        Terra(size=(220, 300), pos=(305, 135), foreground="bitmap_test.png")
 
     def on_touch_down(self, touch):
         Logger.info("On touch down")
-        Logger.info("Terra collide: %s" % self.terra.collide_point(touch.x, touch.y))
+        Logger.info("World objects: %s" % Collector.get_collection("world_objects"))
+        Logger.info("Collidable: %s" % Collector.get_collection("collidable"))
 
     def update(self, x):
-        self.phisics_model.process(self.world_objects)
-        self.world_objects.update()
+        Collector.get_collection("world_phisics").process(
+            Collector.get_collection("world_objects"))
+        Collector.get_collection("world_objects").update()
 
 
 class GameApp(App):

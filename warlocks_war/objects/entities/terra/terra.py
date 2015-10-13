@@ -1,5 +1,5 @@
-from warlocks_war.objects.behaviour_mixins import BitmapShape, ImageView
+from warlocks_war.objects.behaviour_mixins import BitmapCollidable, ImageView
 
 
-class Terra(ImageView, BitmapShape):
+class Terra(ImageView, BitmapCollidable):
     pass

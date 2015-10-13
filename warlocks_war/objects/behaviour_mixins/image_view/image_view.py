@@ -12,7 +12,7 @@ class ImageView(WorldObject):
 
     foreground = ObjectProperty(None)
 
-    def __init__(self, *args, foreground=None, foreground_pos=None, foreground_size=None, **kwargs):
+    def __init__(self, *args, foreground=None, **kwargs):
         if foreground is None or not resource_find(foreground):
             raise ForegroundImageNotFound("Foreground image not found: '%s'" % foreground)
         self.foreground = foreground

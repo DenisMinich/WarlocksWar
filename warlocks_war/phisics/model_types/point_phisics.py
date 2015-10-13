@@ -1,7 +1,9 @@
 from kivy.vector import Vector
 
+from warlocks_war.phisics.model_types.base_phisics import BasePhisics
 
-class PointPhisics(object):
+
+class PointPhisics(BasePhisics):
 
     def __init__(self, gravity=0, coords=(0, 0), affection_radius=0):
         super(PointPhisics, self). __init__()
