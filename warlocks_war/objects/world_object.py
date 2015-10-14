@@ -1,13 +1,13 @@
 from kivy.uix.widget import Widget
 
-from warlocks_war.objects.collector import Collector
+from warlocks_war.objects.collector import Collectable
 
 
-class WorldObject(Widget):
+class WorldObject(Widget, Collectable):
     def __init__(self, *args, **kwargs):
         super(WorldObject, self).__init__(*args, **kwargs)
         self.register_event_type("on_update")
-        Collector.add_to_collection(self, "world_objects")
+        self.add_to_collections(["world_objects"])
 
     def update(self):
         self.dispatch("on_update")
