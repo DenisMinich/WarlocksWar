@@ -1,6 +1,7 @@
 from kivy.vector import Vector
 from numpy import array, zeros
 
+from warlocks_war.objects.collector import Collector
 from warlocks_war.objects.world_object import WorldObject
 
 
@@ -8,26 +9,35 @@ class Collidable(WorldObject):
     def __init__(self, *args, **kwargs):
         super(Collidable, self).__init__(*args, **kwargs)
         self.add_to_collections(["collidable"])
+        self.bind(on_update=self.process_collisions)
 
     def get_resistance_vector(self, widget):
         intersection = self._get_intersection(widget)
         affection_zone = self._get_affection_zone(intersection)
         return self._calculate_resistance_vector(affection_zone)
 
+    def process_collisions(self, instance):
+        for widget in Collector.get_collection("collidable"):
+           if self is not widget and self.collide_widget(widget):
+               resistance = widget.get_resistance_vector(self)
+               self.velocity = resistance * (Vector(self.velocity).length() + .2)
+
     def _get_intersection(self, widget):
-        intersection = array([[None, None], [None, None]])
+        intersection = array([[0, 0], [0, 0]], dtype=int)
+        have_intersection = False
         for x in range(self.size[0] + 1):
             for y in range(self.size[1] + 1):
                 world_x, world_y = self._get_absolute_coords_by_relative(x, y)
                 if widget.collide_point(world_x, world_y) and self.collide_point(world_x, world_y):
-                    if intersection[0, 0] is None:
+                    have_intersection = True
+                    if intersection[0, 0] == 0:
                         intersection[0, 0] = world_x
                     intersection[1, 0] = world_x
-                    if intersection[0, 1] is None or intersection[0, 1] > world_y:
+                    if intersection[0, 1] == 0 or intersection[0, 1] > world_y:
                         intersection[0, 1] = world_y
-                    if intersection[1, 1] is None or intersection[1, 1] < world_y:
+                    if intersection[1, 1] == 0 or intersection[1, 1] < world_y:
                         intersection[1, 1] = world_y
-        return intersection
+        return intersection if have_intersection else None
 
     def _get_affection_zone(self, intersection, expand=1):
         intersection_size = (

@@ -26,7 +26,7 @@ class Battlefield(Widget):
         PlainPhisics(gravity=(0, -.1))
 
         Actor(size=(40, 50), pos=(150, 200), id="main_actor", foreground="mage.png")
-        Terra(size=(220, 300), pos=(305, 135), id="main_actor", foreground="bitmap_test.png")
+        # Terra(size=(220, 300), pos=(305, 135), id="main_actor", foreground="bitmap_test.png")
 
     def on_touch_down(self, touch):
         Logger.info("On touch down")

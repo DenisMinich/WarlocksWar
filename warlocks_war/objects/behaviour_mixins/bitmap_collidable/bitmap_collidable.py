@@ -8,7 +8,7 @@ from warlocks_war.objects.behaviour_mixins.collidable import Collidable
 class BitmapCollidable(Bitmap, Collidable):
     def collide_widget(self, widget):
         if super(Bitmap, self).collide_widget(widget):
-            return bool(self._get_widgets_collide_point(widget))
+            return self._get_intersection(widget) is not None
         return False
 
     def collide_point(self, x, y):
