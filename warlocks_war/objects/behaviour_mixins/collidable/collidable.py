@@ -64,7 +64,7 @@ class Collidable(WorldObject):
             for y in range(affection_zone.shape[1]):
                 if not affection_zone[x, y]:
                     resistance_vector += Vector(
-                        x - affection_zone.shape[0] // 2,
-                        y - affection_zone.shape[1] // 2).normalize()
+                        x - (affection_zone.shape[0] - 1) / 2,
+                        y - (affection_zone.shape[1] - 1) / 2).normalize()
         return resistance_vector.normalize()
 

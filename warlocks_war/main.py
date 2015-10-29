@@ -43,7 +43,7 @@ class Battlefield(Widget):
 class GameApp(App):
     def build(self):
         battlefield = Battlefield()
-        Clock.schedule_interval(battlefield.update, 1./60)
+        Clock.schedule_interval(battlefield.update, 1./10)
         return battlefield
 
 
