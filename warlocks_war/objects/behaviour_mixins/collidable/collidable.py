@@ -20,7 +20,10 @@ class Collidable(WorldObject):
         for widget in Collector.get_collection("collidable"):
            if self is not widget and self.collide_widget(widget):
                resistance = widget.get_resistance_vector(self)
-               self.velocity = resistance * (Vector(self.velocity).length() + .2)
+               collide_velocity = Vector(self.velocity) - Vector(widget.velocity)
+               resistance_vector_factor = -2 * (collide_velocity[0] * resistance[0] + collide_velocity[1] * resistance[1])
+               self.velocity_x = collide_velocity[0] + resistance_vector_factor * resistance[0]
+               self.velocity_y = collide_velocity[1] + resistance_vector_factor * resistance[1]
 
     def _get_intersection(self, widget):
         intersection = array([[0, 0], [0, 0]], dtype=int)
