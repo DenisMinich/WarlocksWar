@@ -1,3 +1,5 @@
+from math import sin, cos, pi
+
 from kivy.vector import Vector
 from numpy import array, zeros
 
@@ -18,12 +20,40 @@ class Collidable(WorldObject):
 
     def process_collisions(self, instance):
         for widget in Collector.get_collection("collidable"):
-           if self is not widget and self.collide_widget(widget):
-               resistance = widget.get_resistance_vector(self)
-               collide_velocity = Vector(self.velocity) - Vector(widget.velocity)
-               resistance_vector_factor = -2 * (collide_velocity[0] * resistance[0] + collide_velocity[1] * resistance[1])
-               self.velocity_x = collide_velocity[0] + resistance_vector_factor * resistance[0]
-               self.velocity_y = collide_velocity[1] + resistance_vector_factor * resistance[1]
+            if self is not widget and self.collide_widget(widget):
+                self.velocity, widget.velocity = Collidable.get_velocity_after_collission(
+                    self, widget)
+                while self.collide_widget(widget):
+                    self.move(self)
+                    widget.move(widget)
+
+    @staticmethod
+    def get_velocity_after_collission(first, second):
+        collission_vector_x = second.get_resistance_vector(first)
+        collission_vector_y = collission_vector_x.rotate(90)
+        v1, v2 = first.velocity, second.velocity
+        system_speed = Vector(v2)
+        v1, v2 = Vector(v1) - system_speed, Vector(v2) - system_speed
+        system_rotate_angle = Vector(1, 0).angle(collission_vector_x)
+        v1a, v1b = Vector(v1).rotate(-system_rotate_angle)
+        mass_ratio = 0 if not second.mass else first.mass / second.mass
+        u1a_1, u1a_2 = Collidable.solve_quadratic_equation(
+            a = mass_ratio + 1,
+            b = -2 * mass_ratio * v1a,
+            c = (mass_ratio - 1) * v1a ** 2)
+        u1a = u1a_1 if u1a_1 != v1a else u1a_2
+        u1b = v1b
+        u2a = mass_ratio * (v1a - u1a)
+        u2b = 0
+        u1 = Vector(u1a, u1b).rotate(system_rotate_angle)
+        u2 = Vector(u2a, u2b).rotate(system_rotate_angle)
+        u1, u2 = u1 + system_speed, u2 + system_speed
+        return u1, u2
+
+    @staticmethod
+    def solve_quadratic_equation(a, b, c):
+        D = b ** 2 - 4 * a * c
+        return (-b + D ** .5) / (2 * a), (-b - D ** .5) / (2 * a)
 
     def _get_intersection(self, widget):
         intersection = array([[0, 0], [0, 0]], dtype=int)

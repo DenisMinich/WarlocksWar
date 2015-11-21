@@ -8,7 +8,7 @@ class WorldObject(Widget, Collectable):
         super(WorldObject, self).__init__(*args, **kwargs)
         self.register_event_type("on_update")
         self.add_to_collections(["world_objects"])
-        self.mass = None
+        self.mass = 1
         self.velocity = (0, 0)
 
     def update(self):
