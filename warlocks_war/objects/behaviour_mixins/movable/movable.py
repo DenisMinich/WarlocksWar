@@ -13,9 +13,11 @@ class Movable(WorldObject):
     acceleration = ReferenceListProperty(acceleration_x, acceleration_y)
     in_move = BooleanProperty(False)
 
-    def __init__(self, *args, speed_limit=10., **kwargs):
+    def __init__(self, *args, velocity=(0, 0), speed_limit=10., **kwargs):
         super(Movable, self).__init__(*args, **kwargs)
         self.speed_limit = speed_limit
+        self.velocity = velocity
+        self.static = False
         self.register_event_type('on_move')
         self.register_event_type('on_move_x')
         self.register_event_type('on_move_y')

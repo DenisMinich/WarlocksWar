@@ -1,4 +1,7 @@
-from numpy import ones, genfromtxt
+from decimal import Decimal
+from functools import partial
+
+from numpy import ones, genfromtxt, array, reshape
 
 from warlocks_war.objects.world_object import WorldObject
 
@@ -17,11 +20,24 @@ class Bitmap(WorldObject):
             return bitmap.astype(bool)
         return ones(self.size, dtype=bool)
 
-    def _get_bitmap_coords_by_relative(self, relative_x, relative_y):
-        relative_y = self.size[1] - relative_y - 1
-        bitmap_x = relative_x * self.bitmap.shape[1] // self.size[0]
-        bitmap_y = relative_y * self.bitmap.shape[0] // self.size[1]
-        return bitmap_x, bitmap_y
-
     def _adapt_bitmap_to_widget_size(self, bitmap):
-        return bitmap
+        return self._transform_matrix(bitmap, self.size)
+
+    def _transform_matrix(self, matrix, new_size):
+        result = list()
+        self._list_walker(
+            array=matrix,
+            size=new_size[0],
+            func=partial(self._list_walker, size=new_size[1], func=result.append))
+        return reshape(result, new_size)
+
+    def _list_walker(self, array=None, size=None, func=None):
+        ratio = Decimal(len(array)) / Decimal(size)
+        current_fill_mark = 0
+        for element in array:
+            while current_fill_mark < 1:
+                func(element)
+                current_fill_mark += ratio
+            if current_fill_mark >= 1:
+                current_fill_mark -= 1
+
