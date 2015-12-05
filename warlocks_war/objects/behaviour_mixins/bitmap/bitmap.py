@@ -26,7 +26,7 @@ class Bitmap(WorldObject):
     def _transform_matrix(self, matrix, new_size):
         result = list()
         self._list_walker(
-            array=matrix,
+            array=matrix[::-1],
             size=new_size[0],
             func=partial(self._list_walker, size=new_size[1], func=result.append))
         return reshape(result, new_size)

@@ -15,8 +15,11 @@ class Collidable(WorldObject):
 
     def get_resistance_vector(self, widget):
         intersection = Collidable.get_intersection(self, widget)
+        print('intersection', intersection)
         affection_zone = self._get_affection_zone(intersection)
+        print('affection_zone', affection_zone)
         result = self._calculate_resistance_vector(affection_zone)
+        print('resistance vector', result)
         return result
 
     def process_collisions(self, instance):
@@ -79,7 +82,7 @@ class Collidable(WorldObject):
                     intersection[1, 1] = world_y
         return intersection if have_intersection else None
 
-    def _get_affection_zone(self, intersection, expand=1):
+    def _get_affection_zone(self, intersection, expand=5):
         intersection_size = (
             intersection[1, 0] - intersection[0, 0] + 1,
             intersection[1, 1] - intersection[0, 1] + 1)
