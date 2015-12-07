@@ -4,11 +4,12 @@ from warlocks_war.objects.collector import Collectable
 
 
 class WorldObject(Widget, Collectable):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, mass=1, **kwargs):
         super(WorldObject, self).__init__(*args, **kwargs)
         self.register_event_type("on_update")
         self.add_to_collections(["world_objects"])
-        self.mass = None
+        self.mass = mass
+        self.static = True
         self.velocity = (0, 0)
 
     def update(self):
