@@ -1,0 +1,2 @@
+from warlocks_war.objects.behaviour_mixins.objects_collection.objects_collection import ObjectsCollection
+

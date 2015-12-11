@@ -12,7 +12,7 @@ class WorldObject(Widget, Collectable):
         self.static = True
         self.velocity = (0, 0)
 
-    def update(self):
+    def update(self, *args, **kwargs):
         self.dispatch("on_update")
 
     def on_update(self):
