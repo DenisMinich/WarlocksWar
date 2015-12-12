@@ -8,22 +8,26 @@ from warlocks_war.objects.world_object import WorldObject
 
 
 class Collidable(WorldObject):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, mass=1, **kwargs):
         super(Collidable, self).__init__(*args, **kwargs)
+        self.mass = mass
         self.add_to_collections(["collidable"])
+        self.register_event_type('on_collide')
         self.bind(on_update=self.process_collisions)
+
+    def get_resistance_vector(self, widget):
+        intersection = Collidable.get_intersection(self, widget)
+        affection_zone = self._get_affection_zone(intersection)
+        result = self._calculate_resistance_vector(affection_zone)
+        return result
 
     def process_collisions(self, instance):
         for widget in Collector.get_collection("collidable"):
             if self is not widget and self.collide_widget(widget) and widget.collide_widget(self):
-                base, additional = (widget, self) if self.static else (self, widget)
-                base.velocity, additional.velocity = Collidable.get_velocity_after_collission(
-                    base, additional)
-                while self.collide_widget(widget) and widget.collide_widget(self):
-                    if not self.static:
-                        self.move(self)
-                    if not widget.static:
-                        widget.move(widget)
+                self.dispatch("on_collide", widget)
+
+    def on_collide(self, widget):
+        pass
 
     @staticmethod
     def get_intersection(first, second):
@@ -67,8 +71,8 @@ class Collidable(WorldObject):
             for y in range(affection_zone.shape[1]):
                 if not affection_zone[x, y]:
                     resistance_vector += Vector(
-                        x - affection_zone.shape[0] // 2,
-                        y - affection_zone.shape[1] // 2).normalize()
+                        x - (affection_zone.shape[0] - 1) / 2,
+                        y - (affection_zone.shape[1] - 1) / 2).normalize()
         return resistance_vector.normalize()
 
     def get_collide_check_pixels(self):

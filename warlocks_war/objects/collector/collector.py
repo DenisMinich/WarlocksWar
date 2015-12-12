@@ -3,7 +3,7 @@ from collections import defaultdict
 
 class Collector:
 
-    _collections = defaultdict(list)
+    _collections = defaultdict(set)
 
     @staticmethod
     def get_collection(collection_name):
@@ -15,7 +15,3 @@ class Collector:
         for collection_name in collections_names:
             yield Collector.get_collection(collection_name)
 
-    @staticmethod
-    def assign_collection(collection_name, collection):
-        collection.extend(Collector.get_collection(collection_name))
-        Collector._collections[collection_name] = collection

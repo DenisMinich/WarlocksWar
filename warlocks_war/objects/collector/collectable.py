@@ -5,7 +5,7 @@ class Collectable:
 
     def add_to_collections(self, collections_names):
         for collection in Collector.get_collections(collections_names):
-            collection.append(self)
+            collection.add(self)
 
     def delete_from_collections(self, collections_names=None):
         for collection in Collector.get_collections(collections_names):

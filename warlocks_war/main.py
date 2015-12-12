@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivy.logger import Logger
 from kivy.uix.widget import Widget
 
-from warlocks_war.objects import Collector, Actor, ObjectsModel, Terra
+from warlocks_war.objects import Collector, Actor, Terra, WorldObject, WidgetsCollection
 from warlocks_war.phisics import PhisicsModel, PlainPhisics, PointPhisics
 from warlocks_war.settings import STATIC_PATH
 
@@ -13,31 +13,17 @@ resource_add_path(STATIC_PATH)
 Builder.load_file('game.kv')
 
 
-class Battlefield(Widget):
-
+class Battlefield(WorldObject):
     def __init__(self, *args, **kwargs):
         super(Battlefield, self).__init__(*args, **kwargs)
+        self.objects = WidgetsCollection([
+            Actor(size=(40, 50), pos=(200, 200), foreground="mage.png")], self)
+        gravity = PlainPhisics(gravity=(0, -.1), affect_objects=self.objects)
+        self.phisics = WidgetsCollection([gravity], self)
 
-        Collector.assign_collection("world_objects", ObjectsModel(parent_widget=self))
-        Collector.assign_collection("world_phisics", PhisicsModel(parent_widget=self))
+    def update(self, *args, **kwargs):
+        super(Battlefield, self).update(*args, **kwargs)
 
-        PlainPhisics(gravity=(0, -.1))
-
-        Terra(
-            size=(300, 300),
-            pos=(305, 135),
-            foreground="triangle.png",
-            bitmap="/home/gantz/projects/WarlocksWar/static/triangle.csv",
-            mass=None)
-
-    def on_touch_down(self, touch):
-        Logger.info("On touch down")
-        Actor(size=(40, 50), pos=(touch.x, touch.y), foreground="mage.png")
-
-    def update(self, x):
-        Collector.get_collection("world_phisics").process(
-            Collector.get_collection("world_objects"))
-        Collector.get_collection("world_objects").update()
 
 
 class GameApp(App):

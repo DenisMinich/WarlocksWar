@@ -12,6 +12,7 @@ class Bitmap(WorldObject):
     def __init__(self, *args, bitmap=None, **kwargs):
         super(Bitmap, self).__init__(*args, **kwargs)
         self.bitmap = self._get_bitmap(bitmap)
+        self.add_to_collections(["bitmap"])
 
     def _get_bitmap(self, bitmap):
         if bitmap is not None:
