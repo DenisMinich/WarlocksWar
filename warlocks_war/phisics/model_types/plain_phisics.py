@@ -10,4 +10,4 @@ class PlainPhisics(BasePhisics):
         self.gravity = Vector(gravity)
 
     def _get_acceleration(self, world_object):
-        return self.gravity
+        return self.gravity.rotate(self.angle)

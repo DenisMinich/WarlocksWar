@@ -16,14 +16,14 @@ Builder.load_file('game.kv')
 class Battlefield(WorldObject):
     def __init__(self, *args, **kwargs):
         super(Battlefield, self).__init__(*args, **kwargs)
-        self.objects = WidgetsCollection([
-            Actor(size=(40, 50), pos=(200, 200), foreground="mage.png")], self)
-        gravity = PlainPhisics(gravity=(0, -.1), affect_objects=self.objects)
-        self.phisics = WidgetsCollection([gravity], self)
+        self.actor = Actor(size=(40, 50), pos=(400, 400), foreground="mage.png")
+        self.objects = WidgetsCollection([self.actor], self)
+        self.gravity = PlainPhisics(gravity=(0, 0), affect_objects=self.objects)
+        self.phisics = WidgetsCollection([self.gravity], self)
 
     def update(self, *args, **kwargs):
         super(Battlefield, self).update(*args, **kwargs)
-
+        self.actor.angle += 3
 
 
 class GameApp(App):
@@ -35,3 +35,4 @@ class GameApp(App):
 
 if __name__ == "__main__":
     GameApp().run()
+

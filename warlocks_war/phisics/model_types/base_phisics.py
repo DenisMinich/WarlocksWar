@@ -15,7 +15,6 @@ class BasePhisics(WorldObject):
         return Vector(0, 0)
 
     def update(self, *args, **kwargs):
-        print('Affect objects', self.affect_objects)
         for affect_object in self.affect_objects:
             if affect_object in Collector.get_collection('movable'):
                 affect_object.acceleration = (

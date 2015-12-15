@@ -1,10 +1,14 @@
+from kivy.properties import NumericProperty
 from kivy.uix.widget import Widget
 
 from warlocks_war.objects.collector import Collectable
 
 
 class WorldObject(Widget, Collectable):
-    def __init__(self, *args, mass=1, **kwargs):
+
+    angle = NumericProperty(0)
+
+    def __init__(self, *args, **kwargs):
         super(WorldObject, self).__init__(*args, **kwargs)
         self.register_event_type("on_update")
         self.add_to_collections(["world_objects"])

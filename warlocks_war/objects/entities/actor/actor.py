@@ -12,10 +12,14 @@ from warlocks_war.phisics import PlainPhisics
 class Actor(Movable, Collidable, ImageView, WorldObject):
     def __init__(self, *args, **kwargs):
         super(Actor, self).__init__(*args, **kwargs)
-        self.own_gravity = PlainPhisics(gravity=(0, .001), affect_objects=[self]) 
+        self.own_gravity = PlainPhisics(gravity=(0, .001), affect_objects=[self])
         self.phisics = WidgetsCollection([self.own_gravity], self)
+        self.own_gravity.angle = self.angle
         self.bind(on_collide=ElasticCollissionProcessor.process_collission)
         self.bind(on_update=self.change_inner_phisic)
+
+    def on_angle(self, instance, value):
+        self.own_gravity.angle = value
 
     def change_inner_phisic(self, *args, **kwargs):
         self.own_gravity.gravity += Vector(0, .002)
