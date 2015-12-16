@@ -1,1 +1,0 @@
-from warlocks_war.objects.behaviour_mixins.bitmap_collidable.bitmap_collidable import BitmapCollidable

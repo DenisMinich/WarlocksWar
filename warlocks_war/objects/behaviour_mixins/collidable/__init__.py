@@ -1,1 +1,0 @@
-from warlocks_war.objects.behaviour_mixins.collidable.collidable import Collidable
