@@ -36,4 +36,3 @@ class ObjectsCollection(list):
     def update(self, *args, **kwargs):
         for world_object in self:
             world_object.update(*args, **kwargs)
-

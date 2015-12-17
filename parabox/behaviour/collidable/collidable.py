@@ -1,10 +1,8 @@
-from math import sin, cos, pi
-
 from kivy.vector import Vector
 from numpy import array, zeros
 
-from parabox.structures import Collector
 from parabox.base_object import BaseObject
+from parabox.structures import Collector
 
 
 class Collidable(BaseObject):
@@ -23,7 +21,8 @@ class Collidable(BaseObject):
 
     def process_collisions(self, instance):
         for widget in Collector.get_collection("collidable"):
-            if self is not widget and self.collide_widget(widget) and widget.collide_widget(self):
+            if (self is not widget and self.collide_widget(widget) and
+                    widget.collide_widget(self)):
                 self.dispatch("on_collide", widget)
 
     def on_collide(self, widget):
@@ -37,7 +36,8 @@ class Collidable(BaseObject):
         have_intersection = False
         for x, y in first.get_collide_check_pixels():
             world_x, world_y = first._get_absolute_coords_by_relative(x, y)
-            if second.collide_point(world_x, world_y) and first.collide_point(world_x, world_y):
+            if (second.collide_point(world_x, world_y) and
+                    first.collide_point(world_x, world_y)):
                 have_intersection = True
                 if intersection[0, 0] == 0 or intersection[0, 0] > world_x:
                     intersection[0, 0] = world_x
@@ -54,11 +54,13 @@ class Collidable(BaseObject):
             intersection[1, 0] - intersection[0, 0] + 1,
             intersection[1, 1] - intersection[0, 1] + 1)
         affection_zone = zeros([
-                intersection_size[0] + expand * 2,
-                intersection_size[1] + expand * 2,],
+            intersection_size[0] + expand * 2,
+            intersection_size[1] + expand * 2],
             dtype=bool)
-        for x in range(intersection[0, 0] - expand, intersection[1, 0] + expand + 1):
-            for y in range(intersection[0, 1] - expand, intersection[1, 1] + expand + 1):
+        for x in range(intersection[0, 0] - expand,
+                       intersection[1, 0] + expand + 1):
+            for y in range(intersection[0, 1] - expand,
+                           intersection[1, 1] + expand + 1):
                 if self.collide_point(x, y):
                     local_x = x - intersection[0, 0] + expand
                     local_y = y - intersection[0, 1] + expand
@@ -85,4 +87,3 @@ class Collidable(BaseObject):
             for y in y_values_to_check:
                 check_pixels.append((x, y))
         return check_pixels
-

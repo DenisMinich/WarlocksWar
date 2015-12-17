@@ -1,6 +1,3 @@
-from kivy.vector import Vector
-from numpy import array
-
 from parabox.behaviour.bitmap import Bitmap
 from parabox.behaviour.collidable import Collidable
 
@@ -11,10 +8,12 @@ class BitmapCollidable(Bitmap, Collidable):
             return Collidable.get_intersection(self, widget) is not None
         return False
 
-    def collide_point(self, x, y):
-        if super(Bitmap, self).collide_point(x, y):
-            relative_x, relative_y = self._get_relative_coords_by_absolute(x, y)
-            if 0 <= relative_x < self.size[0] and 0 <= relative_y < self.size[1]:
+    def collide_point(self, x_coord, y_coord):
+        if super(Bitmap, self).collide_point(x_coord, y_coord):
+            relative_x, relative_y = self._get_relative_coords_by_absolute(
+                x_coord, y_coord)
+            if (0 <= relative_x < self.size[0] and
+                    0 <= relative_y < self.size[1]):
                 return self.bitmap[relative_y, relative_x]
         return False
 
@@ -24,4 +23,3 @@ class BitmapCollidable(Bitmap, Collidable):
             for y in range(self.size[1] + 1):
                 check_pixels.append((x, y))
         return check_pixels
-

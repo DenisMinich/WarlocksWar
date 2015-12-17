@@ -11,8 +11,9 @@ class ElasticCollissionProcessor:
         else:
             base, additional = second, first
         ElasticCollissionProcessor.clarify_collission_point(base, additional)
-        base.velocity, additional.velocity = ElasticCollissionProcessor.get_velocity_after_collission(
-            base, additional)
+        base.velocity, additional.velocity =\
+            ElasticCollissionProcessor.get_velocity_after_collission(
+                base, additional)
 
     @staticmethod
     def clarify_collission_point(first, second):
@@ -31,7 +32,6 @@ class ElasticCollissionProcessor:
     @staticmethod
     def get_velocity_after_collission(first, second):
         collission_vector_x = second.get_resistance_vector(first)
-        collission_vector_y = collission_vector_x.rotate(90)
         v1, v2 = first.velocity, second.velocity
         system_speed = Vector(v2)
         v1, v2 = Vector(v1) - system_speed, Vector(v2) - system_speed
@@ -39,9 +39,9 @@ class ElasticCollissionProcessor:
         v1a, v1b = Vector(v1).rotate(system_rotate_angle)
         mass_ratio = 0 if not second.mass else first.mass / second.mass
         u1a_1, u1a_2 = ElasticCollissionProcessor.solve_quadratic_equation(
-            a = mass_ratio + 1,
-            b = -2 * mass_ratio * v1a,
-            c = (mass_ratio - 1) * v1a ** 2)
+            a=mass_ratio + 1,
+            b=-2 * mass_ratio * v1a,
+            c=(mass_ratio - 1) * v1a ** 2)
         u1a = u1a_1 if u1a_1 != v1a else u1a_2
         u1b = v1b
         u2a = mass_ratio * (v1a - u1a)
@@ -55,4 +55,3 @@ class ElasticCollissionProcessor:
     def solve_quadratic_equation(a, b, c):
         D = b ** 2 - 4 * a * c
         return (-b + D ** .5) / (2 * a), (-b - D ** .5) / (2 * a)
-

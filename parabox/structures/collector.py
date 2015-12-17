@@ -23,7 +23,9 @@ class Collector:
 
     @staticmethod
     def get_collections(collections_names=None):
-        collections_names = collections_names if collections_names is not None else Collector._collections.keys()
+        if collections_names is not None:
+            collections_names = collections_names
+        else:
+            collections_names = Collector._collections.keys()
         for collection_name in collections_names:
             yield Collector.get_collection(collection_name)
-

@@ -1,7 +1,7 @@
 from decimal import Decimal
 from functools import partial
 
-from numpy import ones, genfromtxt, array, reshape
+from numpy import ones, genfromtxt, reshape
 
 from parabox.base_object import BaseObject
 
@@ -27,7 +27,8 @@ class Bitmap(BaseObject):
         self._list_walker(
             array=matrix[::-1],
             size=new_size[0],
-            func=partial(self._list_walker, size=new_size[1], func=result.append))
+            func=partial(
+                self._list_walker, size=new_size[1], func=result.append))
         return reshape(result, new_size)
 
     def _list_walker(self, array=None, size=None, func=None):
@@ -39,4 +40,3 @@ class Bitmap(BaseObject):
                 current_fill_mark += ratio
             if current_fill_mark >= 1:
                 current_fill_mark -= 1
-

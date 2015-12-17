@@ -18,7 +18,8 @@ def main(argv):
     bitmap = ''
     delimiter = DEFAULT_DELIMETER
     try:
-        opts, args = getopt.getopt(argv, "i:b:d:", ["img=", "bitmap=", "delimiter="])
+        opts, args = getopt.getopt(argv, "i:b:d:", [
+            "img=", "bitmap=", "delimiter="])
     except getopt.GetoptError:
         print('image_to_bitmap.py -i <image> -b <bitmap> -d <delimiter>')
         sys.exit(2)

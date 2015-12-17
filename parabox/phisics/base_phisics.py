@@ -18,4 +18,5 @@ class BasePhisics(BaseObject):
         for affect_object in self.affect_objects:
             if affect_object in Collector.get_collection('movable'):
                 affect_object.acceleration = (
-                    Vector(affect_object.acceleration) + self._get_acceleration(affect_object))
+                    Vector(affect_object.acceleration) +
+                    self._get_acceleration(affect_object))

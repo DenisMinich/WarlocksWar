@@ -14,6 +14,7 @@ class ImageView(BaseObject):
 
     def __init__(self, *args, foreground=None, **kwargs):
         if foreground is None or not resource_find(foreground):
-            raise ForegroundImageNotFound("Foreground image not found: '%s'" % foreground)
+            raise ForegroundImageNotFound(
+                "Foreground image not found: '%s'" % foreground)
         self.foreground = foreground
         super(ImageView, self).__init__(*args, **kwargs)

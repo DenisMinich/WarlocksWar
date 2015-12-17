@@ -1,4 +1,5 @@
-from kivy.properties import NumericProperty, ReferenceListProperty, BooleanProperty
+from kivy.properties import (
+    NumericProperty, ReferenceListProperty, BooleanProperty)
 from kivy.vector import Vector
 
 from parabox.base_object import BaseObject
@@ -30,7 +31,8 @@ class Movable(BaseObject):
         self.velocity = Vector(*self.velocity) + Vector(*self.acceleration)
         velocity_vector = Vector(self.velocity)
         if velocity_vector.length() > self.speed_limit:
-            self.velocity = velocity_vector * self.speed_limit / velocity_vector.length()
+            self.velocity = (velocity_vector * self.speed_limit /
+                             velocity_vector.length())
 
     def move(self, instance):
         self._update_velocity()

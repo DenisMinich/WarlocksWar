@@ -9,6 +9,7 @@ class EllipseShape:
         radius = height / 2
         return array([
             [
-                Vector(x / factor - radius, y - radius).length() < radius for x in range(width)
+                Vector(x / factor - radius, y - radius).length() < radius
+                for x in range(width)
             ] for y in range(height)
         ], dtype=bool)
