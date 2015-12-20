@@ -23,6 +23,8 @@ class PointPhisics(BasePhisics):
 
         :param world_object: object which acceleration will be changed
         :type world_object: parabox.base_object.BaseObject
+        :return: acceleration change
+        :rtype: Vector
         """
         acceleration_vector = Vector(
             self.x - world_object.x, self.y - world_object.y)

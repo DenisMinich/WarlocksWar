@@ -22,6 +22,8 @@ class BasePhisics(BaseObject):
 
         :param world_object: object which acceleration will be changed
         :type world_object: parabox.base_object.BaseObject
+        :return: acceleration change
+        :rtype: Vector
         """
         return Vector(0, 0)
 

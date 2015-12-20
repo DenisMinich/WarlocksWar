@@ -20,5 +20,7 @@ class PlainPhisics(BasePhisics):
 
         :param world_object: object which acceleration will be changed
         :type world_object: parabox.base_object.BaseObject
+        :return: acceleration change
+        :rtype: Vector
         """
         return self.gravity.rotate(self.angle)

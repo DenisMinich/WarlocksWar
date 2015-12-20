@@ -4,8 +4,17 @@ from parabox.structures import Collector
 
 
 class ElasticCollissionProcessor:
+    """Collission processor for elastic objects"""
+
     @staticmethod
     def process_collission(first, second):
+        """Process collission for two elastic objects
+
+        :param first: first widget to check collission
+        :type first: parabox.behaviour.collidable.Collidable
+        :param second: second widget to check collission
+        :type second: parabox.behaviour.collidable.Collidable
+        """
         if first in Collector.get_collection('movable'):
             base, additional = first, second
         else:
@@ -17,6 +26,13 @@ class ElasticCollissionProcessor:
 
     @staticmethod
     def clarify_collission_point(first, second):
+        """Correct collission point of two widgets
+
+        :param first: first collission widget
+        :type first: parabox.behaviour.collidable.Collidable
+        :param second: second collission widget
+        :type second: parabox.behaviour.collidable.Collidable
+        """
         temp_velocity = second.get_resistance_vector(first)
         if temp_velocity == Vector(0, 0):
             temp_velocity = Vector(1, 0)
@@ -31,6 +47,15 @@ class ElasticCollissionProcessor:
 
     @staticmethod
     def get_velocity_after_collission(first, second):
+        """Change velocities vectors after collission
+
+        :param first: first collission widget
+        :type first: parabox.behaviour.collidable.Collidable
+        :param second: second collission widget
+        :type second: parabox.behaviour.collidable.Collidable
+        :returns: velocities vectors
+        :rtype: set
+        """
         collission_vector_x = second.get_resistance_vector(first)
         v1, v2 = first.velocity, second.velocity
         system_speed = Vector(v2)
@@ -53,5 +78,12 @@ class ElasticCollissionProcessor:
 
     @staticmethod
     def solve_quadratic_equation(a, b, c):
+        """Returns roots of quadratic equation
+
+        ax^2 + bx + c = 0
+
+        :return: roots of equation
+        :rtype: set
+        """
         D = b ** 2 - 4 * a * c
         return (-b + D ** .5) / (2 * a), (-b - D ** .5) / (2 * a)

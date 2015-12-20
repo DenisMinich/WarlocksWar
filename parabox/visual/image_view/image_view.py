@@ -9,10 +9,17 @@ class ForegroundImageNotFound(Exception):
 
 
 class ImageView(BaseObject):
+    """Mixin for image foreground"""
 
     foreground = ObjectProperty(None)
 
     def __init__(self, *args, foreground=None, **kwargs):
+        """ImageView constructor
+
+        :param foreground: path to foreground image
+        :type foreground: str
+        :raises: ForegroundImageNotFound
+        """
         if foreground is None or not resource_find(foreground):
             raise ForegroundImageNotFound(
                 "Foreground image not found: '%s'" % foreground)
