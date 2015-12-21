@@ -67,3 +67,7 @@ target/
 
 # Opened files
 *.*~
+
+# setup.py files
+AUTHORS
+ChangeLog
