@@ -11,11 +11,12 @@ class BaseObject(Widget, Collectable):
 
     angle = NumericProperty(0)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, angle=0, **kwargs):
         """
         BaseObject contructor
         """
         super(BaseObject, self).__init__(*args, **kwargs)
+        self.angle = angle
         self.register_event_type("on_update")
         self.add_to_collections(["base_objects"])
 

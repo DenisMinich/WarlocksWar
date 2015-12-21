@@ -2,7 +2,7 @@ import os.path
 
 from kivy.lang import Builder
 
-from parabox.behaviour.image_view.image_view import ImageView
+from parabox.visual.image_view.image_view import ImageView
 
 dirrectory_path = os.path.dirname(os.path.realpath(__file__))
 

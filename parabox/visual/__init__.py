@@ -1,1 +1,1 @@
-from parabox.behaviour.image_view import ImageView
+from parabox.visual.image_view import ImageView
