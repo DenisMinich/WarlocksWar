@@ -10,6 +10,8 @@ class Collectable(object):
         :param collections_names: names of collections to add
         :type collections_names: iterable or None
         """
+        if isinstance(collections_names, str):
+            collections_names = [collections_names]
         for collection in Collector.get_collections(collections_names):
             collection.add(self)
 
@@ -19,6 +21,8 @@ class Collectable(object):
         :param collections_names: names of collections to remove class from
         :type collections_names: iterable or None
         """
+        if isinstance(collections_names, str):
+            collections_names = [collections_names]
         for collection in Collector.get_collections(collections_names):
             if self in collection:
                 collection.remove(self)
@@ -50,7 +54,8 @@ class Collector(object):
         :rtype: generator
         """
         if collections_names is not None:
-            collections_names = collections_names
+            if isinstance(collections_names, str):
+                collections_names = [collections_names]
         else:
             collections_names = Collector._collections.keys()
         for collection_name in collections_names:
