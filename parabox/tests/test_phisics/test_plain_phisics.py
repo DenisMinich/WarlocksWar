@@ -1,5 +1,5 @@
-import unittest
 from kivy.vector import Vector
+import unittest
 
 from parabox.behaviour import Movable
 from parabox.phisics import PlainPhisics
@@ -19,4 +19,3 @@ class TestPlainPhisics(unittest.TestCase):
         self.right.update()
         self.assertAlmostEqual(self.affected.acceleration[0], 2)
         self.assertAlmostEqual(self.affected.acceleration[1], -1)
-

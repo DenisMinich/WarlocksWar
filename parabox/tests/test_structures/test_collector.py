@@ -37,11 +37,11 @@ class TestCollector(unittest.TestCase):
         self.assertIn(self.instance, Collector.get_collection(
             'another_one_collection'))
 
-    def test_get_collections(self):
+    def test_get_collection(self):
         self.assertEqual(
-            len(list(Collector.get_collections('new_collection'))), 0)
+            len(Collector.get_collection('new_collection')), 0)
         self.assertEqual(
-            len(list(Collector.get_collections('example_collection'))), 1)
+            len(Collector.get_collection('example_collection')), 1)
 
     def test_get_collections(self):
         initial_len = len(list(Collector.get_collections()))

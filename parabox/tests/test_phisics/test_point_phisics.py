@@ -1,6 +1,5 @@
-import testscenarios
-import unittest
 from kivy.vector import Vector
+import testscenarios
 
 from parabox.behaviour import Movable
 from parabox.phisics import PointPhisics
@@ -15,7 +14,7 @@ class TestPointPhisics(testscenarios.TestWithScenarios):
             pos=(100, 100),
             affect_objects=Collector.get_collection('base_objects'))
 
-    scenarios= [
+    scenarios = [
         ('Out of range', dict(pos=(200, 100), acc=(0, 0))),
         ('In range', dict(pos=(50, 50), acc=(14.6446609, 14.6446609))),
     ]
