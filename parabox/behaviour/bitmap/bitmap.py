@@ -72,10 +72,11 @@ class Bitmap(BaseObject):
         :type func: function or None
         """
         ratio = Decimal(len(array)) / Decimal(size)
-        current_fill_mark = 0
+        factor = 0
+        sub = 0
         for element in array:
-            while current_fill_mark < 1:
+            while ratio * factor - sub < 1:
                 func(element)
-                current_fill_mark += ratio
-            if current_fill_mark >= 1:
-                current_fill_mark -= 1
+                factor += 1
+            if ratio * factor - sub >= 1:
+                sub += 1
