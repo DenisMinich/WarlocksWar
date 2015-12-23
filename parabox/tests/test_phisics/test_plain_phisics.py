@@ -5,7 +5,7 @@ from parabox.behaviour import Movable
 from parabox.phisics import PlainPhisics
 
 
-class TestCollector(unittest.TestCase):
+class TestPlainPhisics(unittest.TestCase):
     def setUp(self):
         self.affected = Movable()
         self.down = PlainPhisics(
