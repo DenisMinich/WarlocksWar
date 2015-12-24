@@ -25,7 +25,6 @@ class TestBaseObject(unittest.TestCase):
 
     def test_update_method(self):
         m = mock.Mock()
-        self.object_example.bind(
-            on_update=m.some_method)
+        self.object_example.bind(on_update=m.some_method)
         self.object_example.update()
         self.assertEqual(m.some_method.call_count, 1)

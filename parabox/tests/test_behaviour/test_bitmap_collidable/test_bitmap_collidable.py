@@ -1,6 +1,5 @@
 import os
 
-import numpy
 import testscenarios
 
 from parabox.behaviour import BitmapCollidable
@@ -21,7 +20,7 @@ class TestBitmapCollidable(testscenarios.TestWithScenarios):
         os.remove(filename)
 
     scenarios = [
-        ('Full out', dict(new_bitmap_pos=(10, 10), collission=False)),
+        ('Full out', dict(new_bitmap_pos=(200, 200), collission=False)),
         ('No collission', dict(new_bitmap_pos=(98, 103), collission=False)),
         ('Collission', dict(new_bitmap_pos=(98, 102), collission=True)),
     ]
