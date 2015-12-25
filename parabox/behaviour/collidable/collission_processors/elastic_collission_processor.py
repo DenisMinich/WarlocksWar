@@ -3,7 +3,7 @@ from kivy.vector import Vector
 from parabox.structures import Collector
 
 
-class ElasticCollissionProcessor:
+class ElasticCollissionProcessor(object):
     """Collission processor for elastic objects"""
 
     @staticmethod
