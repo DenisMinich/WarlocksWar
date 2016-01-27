@@ -15,16 +15,25 @@ class Movable(BaseObject):
     acceleration = ReferenceListProperty(acceleration_x, acceleration_y)
     in_move = BooleanProperty(False)
 
-    def __init__(self, *args, velocity=(0, 0), speed_limit=10., **kwargs):
+    def __init__(
+            self, *args, velocity=(0, 0), speed_limit=None,
+            speed_limit_x=None, speed_limit_y=None,
+            resistance_x=None, resistance_y=None, **kwargs):
         """Movable constructor
 
         :param velocity: velocity vector
         :type velocity: kivy.vector.Vector
-        :param speed_limit: speed limit for object. 10 by default
+        :param speed_limit: speed limit for object.
+        :param speed_limit_x: speed limit by x coord.
+        :param speed_limit_y: speed limit by y coord.
         :type speed_limit: float
         """
         super(Movable, self).__init__(*args, **kwargs)
         self.speed_limit = speed_limit
+        self.speed_limit_x = speed_limit_x
+        self.speed_limit_y = speed_limit_y
+        self.resistance_x = resistance_x
+        self.resistance_y = resistance_y
         self.velocity = velocity
         self.add_to_collections(["movable"])
         self.register_event_type('on_move')
@@ -38,10 +47,51 @@ class Movable(BaseObject):
     def _update_velocity(self):
         """Change velocity because of acceleration"""
         self.velocity = Vector(*self.velocity) + Vector(*self.acceleration)
-        velocity_vector = Vector(self.velocity)
-        if velocity_vector.length() > self.speed_limit:
-            self.velocity = (velocity_vector * self.speed_limit /
-                             velocity_vector.length())
+        self._apply_resistance()
+        self._restrict_velocity()
+
+    def _apply_resistance(self):
+        """Apply movement resistance"""
+        if self.resistance_x is not None:
+            if self.velocity_x >= 0:
+                if self.velocity_x < self.resistance_x:
+                    self.velocity_x = 0
+                else:
+                    self.velocity_x -= self.resistance_x
+            else:
+                if self.velocity_x > -self.resistance_x:
+                    self.velocity_x = 0
+                else:
+                    self.velocity_x += self.resistance_x
+        if self.resistance_x is not None:
+            if self.velocity_y >= 0:
+                if self.velocity_y < self.resistance_x:
+                    self.velocity_y = 0
+                else:
+                    self.velocity_y -= self.resistance_x
+            else:
+                if self.velocity_y > -self.resistance_x:
+                    self.velocity_y = 0
+                else:
+                    self.velocity_y += self.resistance_x
+
+    def _restrict_velocity(self):
+        """Restrict velocity with speed limit"""
+        if self.speed_limit_x is not None:
+            if self.velocity_x > self.speed_limit_x:
+                self.velocity_x = self.speed_limit_x
+            if self.velocity_x < -self.speed_limit_x:
+                self.velocity_x = -self.speed_limit_x
+        if self.speed_limit_y is not None:
+            if self.velocity_y > self.speed_limit_y:
+                self.velocity_y = self.speed_limit_y
+            if self.velocity_y < -self.speed_limit_y:
+                self.velocity_y = -self.speed_limit_y
+        if self.speed_limit is not None:
+            velocity_vector = Vector(self.velocity)
+            if velocity_vector.length() > self.speed_limit:
+                self.velocity = (velocity_vector * self.speed_limit /
+                                 velocity_vector.length())
 
     def move(self, instance):
         """Move object
