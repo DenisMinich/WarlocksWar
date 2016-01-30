@@ -9,12 +9,17 @@ class BaseObject(Widget, Collectable):
 
     angle = NumericProperty(0)
 
+    _old_angle = NumericProperty(0)
+
     def __init__(self, *args, angle=0, **kwargs):
         """BaseObject contructor"""
         super(BaseObject, self).__init__(*args, **kwargs)
         self.angle = angle
         self.register_event_type("on_update")
+        self.register_event_type("on_rotate")
+        self.bind(angle=self._dispatch_on_rotate)
         self.add_to_collections(["base_objects"])
+        self._old_angle = self.angle
 
     def update(self, *args, **kwargs):
         """Update entity method.
@@ -28,6 +33,30 @@ class BaseObject(Widget, Collectable):
     def on_update(self):
         """Update entity event"""
         pass
+
+    def on_rotate(self, instance, new_value, diff):
+        """Extended event on angle change with diffinition arg
+
+        :param instance: Event object instance
+        :type instance: BaseObject
+        :param new_value: New angle value
+        :type new_value: int
+        :param diff: Difference between new and old values
+        :type diff: int
+        """
+        pass
+
+    def _dispatch_on_rotate(self, instance, new_value):
+        """Calculate new and old angle difference and dispatch on_rotate
+
+        :param instance: Event object instance
+        :type instance: BaseObject
+        :param new_value: New angle value
+        :type new_value: int
+        """
+        self.dispatch(
+            'on_rotate', instance, new_value, new_value-self._old_angle)
+        self._old_angle = self.angle
 
     def _get_relative_coords_by_absolute(self, x, y):
         """Return widget's relative coords by absolute

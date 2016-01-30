@@ -28,3 +28,15 @@ class TestBaseObject(unittest.TestCase):
         self.object_example.bind(on_update=m.some_method)
         self.object_example.update()
         self.assertEqual(m.some_method.call_count, 1)
+
+    def test_on_angle(self):
+        m = mock.Mock()
+        self.object_example.bind(on_rotate=m.some_method)
+        self.object_example.angle = 55
+        self.assertEqual(m.some_method.call_count, 1)
+        self.assertEqual(
+            m.some_method.call_args[0], (mock.ANY, mock.ANY, 55, 10))
+        self.object_example.angle = 50
+        self.assertEqual(m.some_method.call_count, 2)
+        self.assertEqual(
+            m.some_method.call_args[0], (mock.ANY, mock.ANY, 50, -5))
