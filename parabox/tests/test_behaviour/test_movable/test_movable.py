@@ -7,8 +7,15 @@ from parabox.behaviour import Movable
 class TestMovable(unittest.TestCase):
     def setUp(self):
         self.in_move = Movable(velocity=(1, 1))
-        self.in_move.in_move = True
         self.stoped = Movable(velocity=(0, 0))
+
+    def test_move_manual(self):
+        self.stoped.mock = Mock()
+        self.stoped.bind(on_move=self.stoped.mock.on_move)
+        self.stoped.move_manual(-1, -1)
+        self.assertEqual(self.stoped.velocity, [0, 0])
+        self.assertEqual(self.stoped.pos, [-1, -1])
+        self.assertEqual(self.stoped.mock.on_move.call_count, 0)
 
     def test_in_move(self):
         self.in_move.mock = Mock()

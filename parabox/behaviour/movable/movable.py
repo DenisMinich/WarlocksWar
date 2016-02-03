@@ -35,6 +35,7 @@ class Movable(BaseObject):
         self.resistance_x = resistance_x
         self.resistance_y = resistance_y
         self.velocity = velocity
+        self.in_move = True if velocity[0] or velocity[1] else False
         self.add_to_collections(["movable"])
         self.register_event_type('on_move')
         self.register_event_type('on_move_x')
@@ -102,6 +103,18 @@ class Movable(BaseObject):
         self._update_velocity()
         self._change_position()
         self._reset_acceleration()
+
+    def move_manual(self, velocity_x, velocity_y):
+        """Move object with fixed velocity
+
+        Dont trigger move/stop events
+        :param velocity_x: velocity by x axis
+        :type velocity_x: float
+        :param velocity_y: velocity by y axis
+        :type velocity_y: float
+        """
+        self.x += velocity_x
+        self.y += velocity_y
 
     def _change_position(self):
         """Change objects position"""

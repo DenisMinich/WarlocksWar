@@ -35,8 +35,8 @@ class TestBaseObject(unittest.TestCase):
         self.object_example.angle = 55
         self.assertEqual(m.some_method.call_count, 1)
         self.assertEqual(
-            m.some_method.call_args[0], (mock.ANY, mock.ANY, 55, 10))
+            m.some_method.call_args[0], (mock.ANY, 55, 10))
         self.object_example.angle = 50
         self.assertEqual(m.some_method.call_count, 2)
         self.assertEqual(
-            m.some_method.call_args[0], (mock.ANY, mock.ANY, 50, -5))
+            m.some_method.call_args[0], (mock.ANY, 50, -5))

@@ -34,7 +34,7 @@ class BaseObject(Widget, Collectable):
         """Update entity event"""
         pass
 
-    def on_rotate(self, instance, new_value, diff):
+    def on_rotate(self, new_value, diff):
         """Extended event on angle change with diffinition arg
 
         :param instance: Event object instance
@@ -55,7 +55,7 @@ class BaseObject(Widget, Collectable):
         :type new_value: int
         """
         self.dispatch(
-            'on_rotate', instance, new_value, new_value-self._old_angle)
+            'on_rotate', new_value, new_value-self._old_angle)
         self._old_angle = self.angle
 
     def _get_relative_coords_by_absolute(self, x, y):
