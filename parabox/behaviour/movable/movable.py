@@ -64,17 +64,17 @@ class Movable(BaseObject):
                     self.velocity_x = 0
                 else:
                     self.velocity_x += self.resistance_x
-        if self.resistance_x is not None:
+        if self.resistance_y is not None:
             if self.velocity_y >= 0:
-                if self.velocity_y < self.resistance_x:
+                if self.velocity_y < self.resistance_y:
                     self.velocity_y = 0
                 else:
-                    self.velocity_y -= self.resistance_x
+                    self.velocity_y -= self.resistance_y
             else:
-                if self.velocity_y > -self.resistance_x:
+                if self.velocity_y > -self.resistance_y:
                     self.velocity_y = 0
                 else:
-                    self.velocity_y += self.resistance_x
+                    self.velocity_y += self.resistance_y
 
     def _restrict_velocity(self):
         """Restrict velocity with speed limit"""

@@ -1,76 +1,54 @@
-class ObjectsCollection(list):
+class ObjectsCollection:
     """Widgets collection with automatic parent/child assigning"""
+
+    _objects = set()
+
+    _assigned = None
 
     def __init__(self, objects, parent_widget):
         """ObjectsCollection constructor
 
-        :param objects: objects to add
+        :param objects: collection to assign
         :type objects: iterable
         :param parent_widget: parent widget for objects in collection
         :type parent_widget: Widget
         """
-        super(ObjectsCollection, self).__init__(objects)
+        self._assigned = objects
         self.parent_widget = parent_widget
         self.parent_widget.bind(on_update=self.update)
-        for new_object in objects:
-            self.parent_widget.add_widget(new_object)
+        self._update_collection_state()
 
-    def append(self, new_object):
-        """Append object to collection
+    def __getattr__(self, name):
+        """Call inner list attribute if not found in wrapper class
 
-        :param new_object: object to append
-        :type new_object: any
+        :param name: name of attribute
+        :type name: string
+        :returns: getattr result of inner collection
+        :rtype: attr
         """
-        super(ObjectsCollection, self).append(new_object)
-        self.parent_widget.add_widget(new_object)
-
-    def insert(self, index, new_object):
-        """Insert object to collection
-
-        :param new_object: object to insert
-        :type new_object: any
-        :param index: insert position
-        :type index: int
-        """
-        super(ObjectsCollection, self).insert(index, new_object)
-        self.parent_widget.add_widget(new_object)
-
-    def pop(self, index):
-        """Pop object from collection
-
-        :param index: pop position
-        :type index: int
-        """
-        result = super(ObjectsCollection, self).pop(index)
-        self.parent_widget.remove_widget(result)
-        return result
-
-    def remove(self, object_to_remove):
-        """Remove object from collection
-
-        :param object_to_remove: object to remove
-        :type object_to_remove: any
-        """
-        super(ObjectsCollection, self).remove(object_to_remove)
-        self.parent_widget.remove_widget(object_to_remove)
-
-    def clear(self):
-        """Clear collection"""
-        for widget_to_delete in self:
-            self.parent_widget.remove_widget(widget_to_delete)
-        super(ObjectsCollection, self).clear()
-
-    def extend(self, iterable):
-        """Extend collection with iterable
-
-        :param iterable: objects to extend collection
-        :type iterable: iterable
-        """
-        super(ObjectsCollection, self).extend(iterable)
-        for new_object in iterable:
-            self.parent_widget.add_widget(new_object)
+        return getattr(self._assigned, name)
 
     def update(self, *args, **kwargs):
         """Call update method for all objects in collection"""
-        for world_object in self:
+        self._update_collection_state()
+        for world_object in self._objects:
             world_object.update(*args, **kwargs)
+
+    def assign_collection(self, new_collection):
+        """Change assigned collection
+
+        :param new_collection: new collection to listen
+        :type new_collection: iterable
+        """
+        self._assigned = new_collection
+        self._update_collection_state()
+
+    def _update_collection_state(self):
+        """Changed inner collection depends on assigned collection
+        """
+        assigned_as_set = set(self._assigned)
+        for new_object in assigned_as_set - self._objects:
+            self.parent_widget.add_widget(new_object)
+        for object_to_delete in self._objects - assigned_as_set:
+            self.parent_widget.remove_widget(object_to_delete)
+        self._objects = assigned_as_set
