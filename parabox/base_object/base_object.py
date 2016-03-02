@@ -1,3 +1,5 @@
+from functools import partial
+
 from kivy.properties import NumericProperty
 from kivy.uix.widget import Widget
 
@@ -20,6 +22,8 @@ class BaseObject(Widget, Collectable):
         self.bind(angle=self._dispatch_on_rotate)
         self.add_to_collections(["base_objects"])
         self._old_angle = self.angle
+        self._planed_actions = []
+        self.bind(on_update=self._call_planed_actions)
 
     def update(self, *args, **kwargs):
         """Update entity method.
@@ -45,6 +49,34 @@ class BaseObject(Widget, Collectable):
         :type diff: int
         """
         pass
+
+    def plan_action(self, ticks_count, action, *args, **kwargs):
+        """Bind call action after some tick counts
+
+        :param ticks_count: ticks count to wait
+        :type ticks_count: int
+        :param action: action to call
+        :type action: function
+        :param args: args to call action with
+        :type args: list
+        :param kwargs: keyword args to call action with
+        :type kwargs: dict
+        """
+        self._planed_actions.append({
+            'ticks': ticks_count,
+            'action': partial(action, *args, **kwargs)})
+
+    def _call_planed_actions(self, instance):
+        """Reduce ticks counts in _planed_actions and call actions
+
+        :param instance: Event object instance
+        :type instance: BaseObject
+        """
+        for action in self._planed_actions:
+            action['ticks'] -= 1
+            if not action['ticks']:
+                action['action']()
+                self._planed_actions.remove(action)
 
     def _dispatch_on_rotate(self, instance, new_value):
         """Calculate new and old angle difference and dispatch on_rotate

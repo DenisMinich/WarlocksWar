@@ -40,3 +40,15 @@ class TestBaseObject(unittest.TestCase):
         self.assertEqual(m.some_method.call_count, 2)
         self.assertEqual(
             m.some_method.call_args[0], (mock.ANY, 50, -5))
+
+    def test_plan_action(self):
+        m = mock.Mock()
+        args = (1, 2, '4')
+        kwargs = {'key': 'value'}
+        self.object_example.plan_action(3, m.some_method, *args, **kwargs)
+        self.assertEqual(m.some_method.call_count, 0)
+        self.object_example.update()
+        self.object_example.update()
+        self.assertEqual(m.some_method.call_count, 0)
+        self.object_example.update()
+        m.some_method.assert_called_with(*args, **kwargs)
