@@ -1,5 +1,6 @@
 class ObjectsCollection:
-    """Widgets collection with automatic parent/child assigning"""
+    """Widgets collection with automatic parent/child assigning
+    """
 
     _objects = set()
 
@@ -48,7 +49,10 @@ class ObjectsCollection:
         """
         assigned_as_set = set(self._assigned)
         for new_object in assigned_as_set - self._objects:
+            if new_object.parent:
+                new_object.parent.remove_widget(new_object)
             self.parent_widget.add_widget(new_object)
         for object_to_delete in self._objects - assigned_as_set:
-            self.parent_widget.remove_widget(object_to_delete)
+            if object_to_delete.parent:
+                self.parent_widget.remove_widget(object_to_delete)
         self._objects = assigned_as_set
